@@ -85,7 +85,7 @@ _stub_curl_fail() {
 
 # --- Tests ---
 
-@test "render: all nodes match control plane — reports no skew" {
+@test "render: all nodes match control plane -- reports no skew" {
   _write_cluster_json "1.31.2"
   _write_nodes_json "1.31.2" "1.31.2" "1.31.2"
   _stub_curl_endoflife '{"name":"1.31","eolFrom":"2025-10","isEol":false}'
@@ -96,7 +96,7 @@ _stub_curl_fail() {
   [[ "$output" == *"3/3 match"* ]]
 }
 
-@test "render: one node behind — reports skew" {
+@test "render: one node behind -- reports skew" {
   _write_cluster_json "1.31.2"
   _write_nodes_json "1.31.2" "1.30.1" "1.31.2"
   _stub_curl_endoflife '{"name":"1.31","eolFrom":"2025-10","isEol":false}'
@@ -106,7 +106,7 @@ _stub_curl_fail() {
   [[ "$output" == *"1 behind"* ]]
 }
 
-@test "render: multiple nodes behind — reports count" {
+@test "render: multiple nodes behind -- reports count" {
   _write_cluster_json "1.31.0"
   _write_nodes_json "1.30.0" "1.29.5" "1.31.0"
   _stub_curl_endoflife '{"name":"1.31","eolFrom":"2025-10","isEol":false}'
@@ -116,7 +116,7 @@ _stub_curl_fail() {
   [[ "$output" == *"2 behind"* ]]
 }
 
-@test "render: EOL version — shows end-of-life from API data" {
+@test "render: EOL version -- shows end-of-life from API data" {
   _write_cluster_json "1.27.0"
   _write_nodes_json "1.27.0"
   _stub_curl_endoflife '{"name":"1.27","eolFrom":"2024-06-28","isEol":true}'
@@ -127,7 +127,7 @@ _stub_curl_fail() {
   [[ "$output" == *"2024-06"* ]]
 }
 
-@test "render: supported version — shows support date from API data" {
+@test "render: supported version -- shows support date from API data" {
   _write_cluster_json "1.34.0"
   _write_nodes_json "1.34.0"
   _stub_curl_endoflife '{"name":"1.34","eolFrom":"2026-10-28","isEol":false}'
@@ -138,7 +138,7 @@ _stub_curl_fail() {
   [[ "$output" == *"2026-10"* ]]
 }
 
-@test "render: API unreachable — shows unable to fetch message" {
+@test "render: API unreachable -- shows unable to fetch message" {
   _write_cluster_json "1.31.0"
   _write_nodes_json "1.31.0"
   _stub_curl_fail
@@ -148,14 +148,14 @@ _stub_curl_fail() {
   [[ "$output" == *"unable to fetch"* ]] || [[ "$output" == *"Unable to fetch"* ]]
 }
 
-@test "render: missing cluster.json — returns error" {
+@test "render: missing cluster.json -- returns error" {
   _write_nodes_json "1.31.0"
 
   run version_skew::render "$TMPDIR_TEST/nonexistent.json" "$TMPDIR_TEST/nodes.json"
   [ "$status" -ne 0 ]
 }
 
-@test "render: single node — no plural in output" {
+@test "render: single node -- no plural in output" {
   _write_cluster_json "1.31.0"
   _write_nodes_json "1.31.0"
   _stub_curl_endoflife '{"name":"1.31","eolFrom":"2025-10","isEol":false}'
@@ -165,7 +165,7 @@ _stub_curl_fail() {
   [[ "$output" == *"1/1 match"* ]]
 }
 
-@test "render: version not in API response — shows unable to determine" {
+@test "render: version not in API response -- shows unable to determine" {
   _write_cluster_json "1.99.0"
   _write_nodes_json "1.99.0"
   # Per-cycle endpoint returns 404 for unknown versions (curl -f fails).
@@ -184,7 +184,7 @@ _stub_curl_fail() {
 # cycle; lib reports patches-behind when the cluster is older than `latest`.
 # ---------------------------------------------------------------------------
 
-@test "render: control plane behind latest patch — reports count" {
+@test "render: control plane behind latest patch -- reports count" {
   _write_cluster_json "1.31.2"
   _write_nodes_json "1.31.2"
   _stub_curl_endoflife '{"name":"1.31","eolFrom":"2025-10","isEol":false,"latest":"1.31.5"}'
@@ -196,7 +196,7 @@ _stub_curl_fail() {
   [[ "$output" == *"3 patches behind"* ]]
 }
 
-@test "render: control plane on latest patch — omits or marks 'on latest'" {
+@test "render: control plane on latest patch -- omits or marks 'on latest'" {
   _write_cluster_json "1.31.5"
   _write_nodes_json "1.31.5"
   _stub_curl_endoflife '{"name":"1.31","eolFrom":"2025-10","isEol":false,"latest":"1.31.5"}'
@@ -206,7 +206,7 @@ _stub_curl_fail() {
   [[ "$output" != *"patches behind"* ]]
 }
 
-@test "render: API response without 'latest' field — degrades gracefully" {
+@test "render: API response without 'latest' field -- degrades gracefully" {
   _write_cluster_json "1.31.2"
   _write_nodes_json "1.31.2"
   _stub_curl_endoflife '{"name":"1.31","eolFrom":"2025-10","isEol":false}'
@@ -217,7 +217,7 @@ _stub_curl_fail() {
   [[ "$output" != *"patches behind"* ]]
 }
 
-@test "render: control plane one patch ahead of 'latest' — does not report behind" {
+@test "render: control plane one patch ahead of 'latest' -- does not report behind" {
   # Edge case: a freshly-released patch where endoflife.date hasn't caught up.
   _write_cluster_json "1.31.6"
   _write_nodes_json "1.31.6"

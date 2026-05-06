@@ -69,7 +69,7 @@ setup() {
   done
 }
 
-@test "ConfigMap/Secret are referenced by name only — contents are never read" {
+@test "ConfigMap/Secret are referenced by name only -- contents are never read" {
   run grep -E -i "(name.*only|never read|contents).*(secret|configmap)|(secret|configmap).*(name.*only|never read|contents)" "$TMPL"
   [ "$status" -eq 0 ]
 }
@@ -127,7 +127,7 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-@test "target is optional — skill prompts when omitted" {
+@test "target is optional -- skill prompts when omitted" {
   run grep -E -i "(prompt|ask).*(when|if).*omitted|optional" "$TMPL"
   [ "$status" -eq 0 ]
 }

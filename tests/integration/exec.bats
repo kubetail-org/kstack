@@ -48,7 +48,7 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-@test "pod mode auto-detects shell (bash → sh → ash)" {
+@test "pod mode auto-detects shell (bash -> sh -> ash)" {
   run grep -E "\`bash\`.*\`sh\`.*\`ash\`" "$TMPL"
   [ "$status" -eq 0 ]
 }

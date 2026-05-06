@@ -67,7 +67,7 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-@test "target is optional — skill prompts when omitted" {
+@test "target is optional -- skill prompts when omitted" {
   run grep -E -i "(prompt|ask).*(omit|when omit)|optional" "$TMPL"
   [ "$status" -eq 0 ]
 }

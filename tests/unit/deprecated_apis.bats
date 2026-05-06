@@ -107,7 +107,7 @@ _remove_tool() {
   [[ "$output" == *"kubent"* ]] || [[ "$output" == *"Kubent"* ]]
 }
 
-@test "detect: falls back to web — sets AGENT_NEEDED with raw data" {
+@test "detect: falls back to web -- sets AGENT_NEEDED with raw data" {
   _remove_tool pluto
   _remove_tool kubent
   _stub_kubectl_api_versions "apps/v1" "extensions/v1beta1"
@@ -124,7 +124,7 @@ The **extensions/v1beta1** API version of Deployment is no longer served as of v
   [[ "$DEPRECATED_APIS_ACTIVE_VERSIONS" == *"apps/v1"* ]]
 }
 
-@test "detect: all backends unavailable — reports unable to detect" {
+@test "detect: all backends unavailable -- reports unable to detect" {
   _remove_tool pluto
   _remove_tool kubent
   _stub_kubectl_api_versions "apps/v1" "extensions/v1beta1"
@@ -137,7 +137,7 @@ The **extensions/v1beta1** API version of Deployment is no longer served as of v
 
 # --- Pluto backend tests ---
 
-@test "pluto: no deprecated APIs — reports clean" {
+@test "pluto: no deprecated APIs -- reports clean" {
   _stub_kubectl_api_versions "apps/v1" "v1"
   _stub_pluto '[]'
 
@@ -146,7 +146,7 @@ The **extensions/v1beta1** API version of Deployment is no longer served as of v
   [[ "$output" == *"No deprecated APIs"* ]] || [[ "$output" == *"no deprecated"* ]] || [[ "$output" == *"None"* ]]
 }
 
-@test "pluto: multiple deprecated APIs — reports count and details" {
+@test "pluto: multiple deprecated APIs -- reports count and details" {
   _stub_kubectl_api_versions "apps/v1" "extensions/v1beta1" "policy/v1beta1"
   _stub_pluto '[{"name":"extensions/v1beta1","api":{"version":"extensions/v1beta1","kind":"Deployment"},"ruleSet":"","replaceWith":"apps/v1","removedIn":"1.22","deprecated":true,"removed":true},{"name":"policy/v1beta1","api":{"version":"policy/v1beta1","kind":"PodSecurityPolicy"},"ruleSet":"","replaceWith":"policy/v1","removedIn":"1.25","deprecated":true,"removed":true}]'
 
@@ -167,7 +167,7 @@ The **extensions/v1beta1** API version of Deployment is no longer served as of v
 
 # --- Kubent backend tests ---
 
-@test "kubent: no deprecated APIs — reports clean" {
+@test "kubent: no deprecated APIs -- reports clean" {
   _remove_tool pluto
   _stub_kubectl_api_versions "apps/v1" "v1"
   _stub_kubent '[]'

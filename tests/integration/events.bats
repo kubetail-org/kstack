@@ -217,7 +217,7 @@ EOF
   [[ "$output" != *'"NOTE"'* ]]
 }
 
-@test "main: mixed events — warn, note, and suppressed all appear" {
+@test "main: mixed events -- warn, note, and suppressed all appear" {
   local fixture="$TMPDIR_TEST/mixed_events.json"
   cat > "$fixture" << 'EOF'
 {"items":[

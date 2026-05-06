@@ -161,7 +161,7 @@ EOF
   [[ "$output" != *'"notice"'* ]]
 }
 
-@test "no manifest/version → silent preamble envelope" {
+@test "no manifest/version -> silent preamble envelope" {
   rm "$ROOT/manifest/version"
   stub_git
   export MOCK_TAGS="v9.0.0"
@@ -170,7 +170,7 @@ EOF
   [[ "$output" != *'"notice"'* ]]
 }
 
-@test "manifest/version=main → silent preamble (pre-release)" {
+@test "manifest/version=main -> silent preamble (pre-release)" {
   echo "main" > "$ROOT/manifest/version"
   stub_git
   export MOCK_TAGS="v9.0.0"
@@ -181,7 +181,7 @@ EOF
 
 # ─── scripts/main dispatch ─────────────────────────────────────
 
-@test "no scripts/main → ok/agent envelope with empty content" {
+@test "no scripts/main -> ok/agent envelope with empty content" {
   stub_git
   export MOCK_TAGS="v1.0.0"
   run "$EP" --skill-dir="$SKILL_DIR" --
@@ -225,7 +225,7 @@ EOF
   [[ "$output" == *"notice-was=kstack v2.0.0 is available"* ]]
 }
 
-@test "scripts/main non-executable → infra error envelope" {
+@test "scripts/main non-executable -> infra error envelope" {
   stub_git
   export MOCK_TAGS="v1.0.0"
   : > "$SKILL_DIR/scripts/main"  # create but do not chmod +x

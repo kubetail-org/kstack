@@ -173,7 +173,7 @@ esac
   [[ "$output" == *"Active API versions"* ]]
 }
 
-@test "main: no cached preference → needs_setup envelope with installed inventory" {
+@test "main: no cached preference -> needs_setup envelope with installed inventory" {
   rm -f "$KSTACK_ROOT/state/audit-outdated/deprecated-apis-backend"
   run "$SRC_ROOT/skills/audit-outdated/scripts/main"
   [ "$status" -eq 0 ]
@@ -185,7 +185,7 @@ esac
   [[ "$output" == *"Version Skew"* ]]  # skew block still rendered pre-formatted
 }
 
-@test "main: stale preference (tool uninstalled) → needs_setup with stale_preference set" {
+@test "main: stale preference (tool uninstalled) -> needs_setup with stale_preference set" {
   _seed_backend_pref kubent  # seed a choice whose tool isn't stubbed
   run "$SRC_ROOT/skills/audit-outdated/scripts/main"
   [ "$status" -eq 0 ]

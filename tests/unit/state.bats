@@ -47,14 +47,14 @@ setup() {
   [[ "$STATE_CONTEXT_DIR" == "$KSTACK_ROOT/state/contexts/"* ]]
 }
 
-@test "init_context: same context → same dir" {
+@test "init_context: same context -> same dir" {
   state::init_context
   local first="$STATE_CONTEXT_DIR"
   state::init_context
   [ "$STATE_CONTEXT_DIR" = "$first" ]
 }
 
-@test "init_context: different context → different dir" {
+@test "init_context: different context -> different dir" {
   state::init_context
   local first="$STATE_CONTEXT_DIR"
   export KSTACK_KUBE_CONTEXT="other-ctx"

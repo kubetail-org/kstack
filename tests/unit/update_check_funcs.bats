@@ -58,43 +58,43 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-@test "uc_compute_notice: installed < latest → sets NOTICE" {
+@test "uc_compute_notice: installed < latest -> sets NOTICE" {
   uc_compute_notice v1.0.0 v2.0.0 ""
   [[ "$NOTICE" == *"kstack v2.0.0 is available"* ]]
   [[ "$NOTICE" == *"you're on v1.0.0"* ]]
 }
 
-@test "uc_compute_notice: installed == latest → empty NOTICE" {
+@test "uc_compute_notice: installed == latest -> empty NOTICE" {
   uc_compute_notice v1.0.0 v1.0.0 ""
   [ -z "$NOTICE" ]
 }
 
-@test "uc_compute_notice: installed > latest → empty NOTICE" {
+@test "uc_compute_notice: installed > latest -> empty NOTICE" {
   uc_compute_notice v3.0.0 v2.0.0 ""
   [ -z "$NOTICE" ]
 }
 
-@test "uc_compute_notice: dismissed == latest → empty NOTICE" {
+@test "uc_compute_notice: dismissed == latest -> empty NOTICE" {
   uc_compute_notice v1.0.0 v2.0.0 v2.0.0
   [ -z "$NOTICE" ]
 }
 
-@test "uc_compute_notice: dismissed > latest → empty NOTICE" {
+@test "uc_compute_notice: dismissed > latest -> empty NOTICE" {
   uc_compute_notice v1.0.0 v2.0.0 v2.5.0
   [ -z "$NOTICE" ]
 }
 
-@test "uc_compute_notice: dismissed < latest → sets NOTICE" {
+@test "uc_compute_notice: dismissed < latest -> sets NOTICE" {
   uc_compute_notice v1.0.0 v2.5.0 v2.0.0
   [[ "$NOTICE" == *"kstack v2.5.0 is available"* ]]
 }
 
-@test "uc_compute_notice: empty installed → empty NOTICE" {
+@test "uc_compute_notice: empty installed -> empty NOTICE" {
   uc_compute_notice "" v2.0.0 ""
   [ -z "$NOTICE" ]
 }
 
-@test "uc_compute_notice: empty latest → empty NOTICE" {
+@test "uc_compute_notice: empty latest -> empty NOTICE" {
   uc_compute_notice v1.0.0 "" ""
   [ -z "$NOTICE" ]
 }
@@ -106,13 +106,13 @@ setup() {
   [ "$INSTALLED" = "v1.2.3" ]
 }
 
-@test "uc_resolve_installed_version: missing file → empty" {
+@test "uc_resolve_installed_version: missing file -> empty" {
   mkdir -p "$HOME/root"
   uc_resolve_installed_version "$HOME/root"
   [ -z "$INSTALLED" ]
 }
 
-@test "uc_resolve_installed_version: 'main' → empty (pre-release)" {
+@test "uc_resolve_installed_version: 'main' -> empty (pre-release)" {
   mkdir -p "$HOME/root/manifest"
   echo "main" > "$HOME/root/manifest/version"
   uc_resolve_installed_version "$HOME/root"
