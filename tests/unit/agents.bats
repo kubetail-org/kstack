@@ -38,6 +38,12 @@ setup() {
   [ "$output" = "kiro-cli" ]
 }
 
+@test "agent_cli maps pi to pi" {
+  run agent_cli pi
+  [ "$status" -eq 0 ]
+  [ "$output" = "pi" ]
+}
+
 @test "agent_cli returns non-zero for unknown agent" {
   run agent_cli nosuch
   [ "$status" -ne 0 ]
@@ -53,6 +59,12 @@ setup() {
   run agent_skills_dir_global opencode
   [ "$status" -eq 0 ]
   [ "$output" = "$HOME/.config/opencode/skills" ]
+}
+
+@test "agent_skills_dir_global pi" {
+  run agent_skills_dir_global pi
+  [ "$status" -eq 0 ]
+  [ "$output" = "$HOME/.pi/agent/skills" ]
 }
 
 @test "agent_skills_dir_global returns non-zero for unknown" {
@@ -72,8 +84,14 @@ setup() {
   [ "$output" = "/opt/kstack/.config/opencode/skills" ]
 }
 
+@test "agent_skills_dir_local pi" {
+  run agent_skills_dir_local /opt/kstack pi
+  [ "$status" -eq 0 ]
+  [ "$output" = "/opt/kstack/.pi/skills" ]
+}
+
 @test "is_known_agent accepts all KNOWN_AGENTS" {
-  for a in claude codex opencode cursor factory slate kiro hermes; do
+  for a in claude codex opencode cursor factory slate kiro hermes pi; do
     run is_known_agent "$a"
     [ "$status" -eq 0 ] || { echo "$a should be known"; return 1; }
   done
@@ -89,7 +107,7 @@ setup() {
   [ "$status" -ne 0 ]
 }
 
-@test "KNOWN_AGENTS lists all eight agents" {
+@test "KNOWN_AGENTS lists all nine agents" {
   set -- $KNOWN_AGENTS
-  [ "$#" -eq 8 ]
+  [ "$#" -eq 9 ]
 }

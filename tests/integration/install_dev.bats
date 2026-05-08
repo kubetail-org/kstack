@@ -160,6 +160,13 @@ isolate_dev_setup() {
   assert_file_exists "$FAKE_ROOT/.config/opencode/skills/kstack-demo/SKILL.md"
 }
 
+@test "install --agent pi writes to .pi/skills/kstack-demo" {
+  isolate_dev_setup
+  run "$RUN_INSTALL" --agent pi --quiet
+  [ "$status" -eq 0 ]
+  assert_file_exists "$FAKE_ROOT/.pi/skills/kstack-demo/SKILL.md"
+}
+
 @test "install --agent nosuch exits 1 with 'Unknown agent'" {
   run "$RUN_INSTALL" --agent nosuch
   [ "$status" -eq 1 ]

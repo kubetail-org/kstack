@@ -8,6 +8,7 @@
 /.slate
 /.kiro
 /.hermes
+/.pi/skills
 
 # Dev-mode kstack state (update-check cache, learned state).
 /.kstack/

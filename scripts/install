@@ -55,7 +55,7 @@
 #
 # Contributors normally invoke dev mode via `make install`.
 #
-# Supported agents: claude, codex, opencode, cursor, factory, slate, kiro, hermes
+# Supported agents: claude, codex, opencode, cursor, factory, slate, kiro, hermes, pi
 
 set -eu
 

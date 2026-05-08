@@ -37,6 +37,7 @@ PATHS="
   .slate
   .kiro
   .hermes
+  .pi/skills
   .kstack
   .build
 "

@@ -79,6 +79,14 @@ setup() {
   [ -x "$PROJECT/.claude/skills/kstack-demo/scripts/snapshot" ]
 }
 
+@test "install --local --agent pi renders into \$PWD/.pi/skills" {
+  local pi_project="$BATS_TEST_TMPDIR/pi-proj"
+  mkdir -p "$pi_project"
+  run bash -c "cd '$pi_project' && '$RUN_INSTALL' --local --agent pi --quiet"
+  [ "$status" -eq 0 ]
+  assert_file_exists "$pi_project/.pi/skills/kstack-demo/SKILL.md"
+}
+
 @test "install --local copies bin/ helpers under \$PWD/.kstack/bin" {
   [ -x "$PROJECT/.kstack/bin/hello" ]
 }

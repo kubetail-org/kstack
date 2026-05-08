@@ -67,6 +67,13 @@ setup() {
   [ -x "$HOME/.claude/skills/kstack-demo/scripts/snapshot" ]
 }
 
+@test "install --global --agent pi renders into \$HOME/.pi/agent/skills" {
+  common_setup
+  run "$RUN_INSTALL" --global --agent pi --quiet
+  [ "$status" -eq 0 ]
+  assert_file_exists "$HOME/.pi/agent/skills/kstack-demo/SKILL.md"
+}
+
 @test "install --global copies bin/ helpers to \$HOME/.config/kstack/bin" {
   [ -x "$HOME/.config/kstack/bin/hello" ]
 }

@@ -31,6 +31,7 @@ setup() {
   mkdir -p "$HOME/.claude/skills/kstack-demo" "$HOME/.claude/skills/kstack-other"
   mkdir -p "$HOME/.claude/skills/non-kstack"  # must NOT be removed
   mkdir -p "$HOME/.codex/skills/kstack-demo"
+  mkdir -p "$HOME/.pi/agent/skills/kstack-demo"
 
   UNINSTALL="$HOME/.config/kstack/bin/uninstall"
 }
@@ -41,6 +42,7 @@ setup() {
   [ ! -e "$HOME/.claude/skills/kstack-demo" ]
   [ ! -e "$HOME/.claude/skills/kstack-other" ]
   [ ! -e "$HOME/.codex/skills/kstack-demo" ]
+  [ ! -e "$HOME/.pi/agent/skills/kstack-demo" ]
   [ ! -e "$HOME/.config/kstack" ]
 }
 
@@ -85,8 +87,16 @@ setup() {
   run "$UNINSTALL" --force --agent claude
   [ "$status" -eq 0 ]
   [ ! -e "$HOME/.claude/skills/kstack-demo" ]
-  # codex dir still exists as a dir (config dir is still removed though).
+  # codex/pi dirs still exist as dirs (config dir is still removed though).
   [ -e "$HOME/.codex/skills/kstack-demo" ]
+  [ -e "$HOME/.pi/agent/skills/kstack-demo" ]
+}
+
+@test "uninstall --force --agent pi removes pi global skill slots" {
+  run "$UNINSTALL" --force --agent pi
+  [ "$status" -eq 0 ]
+  [ ! -e "$HOME/.pi/agent/skills/kstack-demo" ]
+  [ -e "$HOME/.claude/skills/kstack-demo" ]
 }
 
 @test "uninstall --agent nosuch exits 1" {
@@ -133,6 +143,28 @@ setup() {
   run "$UNINSTALL" --help
   [ "$status" -eq 0 ]
   [[ "$output" == *"kstack uninstall"* ]]
+}
+
+@test "uninstall --force --agent pi in local layout removes .pi/skills slots" {
+  PROJECT="$TMPDIR_TEST/pi-proj"
+  ROOT="$PROJECT/.kstack"
+  mkdir -p "$ROOT/bin" "$ROOT/lib" "$ROOT/upstream" "$ROOT/manifest"
+  git init --quiet "$ROOT/upstream"
+  cp "$SRC_ROOT/bin/uninstall" "$ROOT/bin/uninstall"
+  cp "$SRC_ROOT/lib/agents.sh" "$ROOT/lib/agents.sh"
+  cp "$SRC_ROOT/lib/manifest.sh" "$ROOT/lib/manifest.sh"
+  chmod +x "$ROOT/bin/uninstall"
+  printf '%s\n' demo > "$ROOT/manifest/skills"
+
+  mkdir -p "$PROJECT/.pi/skills/demo" "$PROJECT/.pi/skills/user-own"
+  echo "kstack" > "$PROJECT/.pi/skills/demo/SKILL.md"
+  echo "mine"   > "$PROJECT/.pi/skills/user-own/SKILL.md"
+
+  run "$ROOT/bin/uninstall" --force --agent pi
+  [ "$status" -eq 0 ]
+  [ ! -e "$ROOT" ]
+  [ ! -e "$PROJECT/.pi/skills/demo" ]
+  [ -f "$PROJECT/.pi/skills/user-own/SKILL.md" ]
 }
 
 @test "uninstall --force in local layout removes .kstack and scoped skill slots" {

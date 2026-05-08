@@ -18,7 +18,7 @@
 # Source this file; do not execute it.
 # Requires $HOME to be set before agent_skills_dir_global is called.
 
-KNOWN_AGENTS="claude codex opencode cursor factory slate kiro hermes"
+KNOWN_AGENTS="claude codex opencode cursor factory slate kiro hermes pi"
 
 # agent_cli: CLI binary to probe for auto-detect
 agent_cli() {
@@ -31,6 +31,7 @@ agent_cli() {
     slate)    echo slate ;;
     kiro)     echo kiro-cli ;;
     hermes)   echo hermes ;;
+    pi)       echo pi ;;
     *)        return 1 ;;
   esac
 }
@@ -46,6 +47,7 @@ agent_skills_dir_global() {
     slate)    echo "$HOME/.slate/skills" ;;
     kiro)     echo "$HOME/.kiro/skills" ;;
     hermes)   echo "$HOME/.hermes/skills" ;;
+    pi)       echo "$HOME/.pi/agent/skills" ;;
     *)        return 1 ;;
   esac
 }
@@ -63,6 +65,7 @@ agent_skills_dir_local() {
     slate)    echo "$root/.slate/skills" ;;
     kiro)     echo "$root/.kiro/skills" ;;
     hermes)   echo "$root/.hermes/skills" ;;
+    pi)       echo "$root/.pi/skills" ;;
     *)        return 1 ;;
   esac
 }
