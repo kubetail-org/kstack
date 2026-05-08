@@ -80,8 +80,9 @@ Kstack funktioniert mit jedem KI-Agenten, der Skills unterstützt, nicht nur mit
 | Slate            | `--agent slate`    | `~/.slate/skills/`             |
 | Kiro             | `--agent kiro`     | `~/.kiro/skills/`              |
 | Hermes           | `--agent hermes`   | `~/.hermes/skills/`            |
+| Pi               | `--agent pi`       | `~/.pi/agent/skills/`          |
 
-Lokale Installationen spiegeln diese Struktur unter dem Projektverzeichnis wider (z. B. `<project>/.codex/skills/`) und werden nur erfasst, wenn der Agent aus diesem Verzeichnis heraus ausgeführt wird.
+Lokale Installationen spiegeln diese Struktur unter dem Projektverzeichnis wider (z. B. `<project>/.codex/skills/`) und werden nur erfasst, wenn der Agent aus diesem Verzeichnis heraus ausgeführt wird. Pi ist die einzige Ausnahme — sein lokales Skills-Verzeichnis ist `<project>/.pi/skills/` (ohne `agent/`-Segment).
 
 ## Skills-Referenz
 

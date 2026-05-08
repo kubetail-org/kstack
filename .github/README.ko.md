@@ -80,8 +80,9 @@ Kstack은 Claude뿐만 아니라 스킬을 지원하는 모든 AI 에이전트�
 | Slate            | `--agent slate`    | `~/.slate/skills/`            |
 | Kiro             | `--agent kiro`     | `~/.kiro/skills/`             |
 | Hermes           | `--agent hermes`   | `~/.hermes/skills/`           |
+| Pi               | `--agent pi`       | `~/.pi/agent/skills/`         |
 
-로컬 설치는 프로젝트 디렉토리 아래에 이 구조를 미러링하며(예: `<project>/.codex/skills/`) 해당 디렉토리 내에서 에이전트를 실행할 때만 선택됩니다.
+로컬 설치는 프로젝트 디렉토리 아래에 이 구조를 미러링하며(예: `<project>/.codex/skills/`) 해당 디렉토리 내에서 에이전트를 실행할 때만 선택됩니다. Pi만 예외로, 로컬 스킬 디렉토리는 `<project>/.pi/skills/`입니다(`agent/` 세그먼트 없음).
 
 ## 스킬 참조
 

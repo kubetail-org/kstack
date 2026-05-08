@@ -80,8 +80,9 @@ Kstack 适用于任何支持技能的 AI 代理，不仅仅是 Claude。curl 引
 | Slate            | `--agent slate`    | `~/.slate/skills/`            |
 | Kiro             | `--agent kiro`     | `~/.kiro/skills/`             |
 | Hermes           | `--agent hermes`   | `~/.hermes/skills/`           |
+| Pi               | `--agent pi`       | `~/.pi/agent/skills/`         |
 
-本地安装在项目目录下镜像此结构（例如 `<project>/.codex/skills/`），仅在从该目录内运行代理时生效。
+本地安装在项目目录下镜像此结构（例如 `<project>/.codex/skills/`），仅在从该目录内运行代理时生效。 Pi 是唯一的例外 —— 其本地技能目录为 `<project>/.pi/skills/`（不含 `agent/` 段）。
 
 ## 技能参考
 

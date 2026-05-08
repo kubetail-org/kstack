@@ -80,8 +80,9 @@ Kstack works with any AI agent that supports skills, not just Claude. The curl b
 | Slate            | `--agent slate`    | `~/.slate/skills/`             |
 | Kiro             | `--agent kiro`     | `~/.kiro/skills/`              |
 | Hermes           | `--agent hermes`   | `~/.hermes/skills/`            |
+| Pi               | `--agent pi`       | `~/.pi/agent/skills/`          |
 
-Local installs mirror this structure under the project directory (e.g. `<project>/.codex/skills/`) and are picked up only when the agent is run from inside that directory.
+Local installs mirror this structure under the project directory (e.g. `<project>/.codex/skills/`) and are picked up only when the agent is run from inside that directory. Pi is the one exception — its local skills dir is `<project>/.pi/skills/` (no `agent/` segment).
 
 ## Skills Reference
 

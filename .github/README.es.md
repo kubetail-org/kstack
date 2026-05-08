@@ -80,8 +80,9 @@ Kstack funciona con cualquier agente de IA que soporte habilidades, no solo Clau
 | Slate            | `--agent slate`    | `~/.slate/skills/`             |
 | Kiro             | `--agent kiro`     | `~/.kiro/skills/`              |
 | Hermes           | `--agent hermes`   | `~/.hermes/skills/`            |
+| Pi               | `--agent pi`       | `~/.pi/agent/skills/`          |
 
-Las instalaciones locales reflejan esta estructura bajo el directorio del proyecto (p. ej., `<project>/.codex/skills/`) y solo se detectan cuando el agente se ejecuta desde dentro de ese directorio.
+Las instalaciones locales reflejan esta estructura bajo el directorio del proyecto (p. ej., `<project>/.codex/skills/`) y solo se detectan cuando el agente se ejecuta desde dentro de ese directorio. Pi es la única excepción: su directorio local de skills es `<project>/.pi/skills/` (sin el segmento `agent/`).
 
 ## Referencia de habilidades
 
