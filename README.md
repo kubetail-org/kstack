@@ -35,6 +35,9 @@ Once you install kstack you'll have access to these skills inside Claude Code:
 * `/audit-cost` — Requests vs. usage, over-provisioning, idle capacity
 * `/audit-outdated` — Outdated services, known CVEs, available version bumps
 
+**Autoscaling**
+* `/karpenter` — Karpenter provisioning health, node-claim diagnosis, consolidation/cost efficiency
+
 **Miscellaneous**
 * `/cleanup` — Remove all kstack-owned resources from the cluster (debug containers, pod clones, watcher jobs)
 * `/forget` — Clear kstack's local cache and discard what it learned about your cluster(s)
@@ -320,6 +323,27 @@ Outdated cluster components, known CVEs, and available version bumps. Looks for 
 **Options:** none. Scope via natural language in the prompt or follow-ups.
 
 **Reference:** [kstack.sh/reference/skills/audit-outdated](https://kstack.sh/reference/skills/audit-outdated)
+
+</dd>
+<dt>
+
+#### `/karpenter`
+
+</dt>
+<dd>
+
+Karpenter node-autoscaling health, node-claim diagnosis, and consolidation/cost efficiency. Reports what Karpenter has provisioned, why nodes or pods are stuck, and where cheaper steady-state capacity is being left on the table.
+
+**What it checks:** NodePools (`.spec.limits` vs `.status.resources` utilization, disruption policy and budgets, unbounded pools), NodeClaims (readiness across `Launched`/`Registered`/`Initialized`/`Ready`, spot vs on-demand mix, pending drift), stuck launches and unschedulable pods Karpenter should be handling, `EC2NodeClass` misconfiguration (unresolved subnets/security-groups/AMI/instance-profile), provisioning errors from controller events/logs (ICE, IAM, VPC limits), and cost levers — consolidation left off or throttled (`WhenEmpty` vs `WhenEmptyOrUnderutilized`, restrictive budgets, long `consolidateAfter`), on-demand where spot fits, narrow instance-type requirements, and idle nodes lingering.
+
+**How it works:** detects the served Karpenter API version (`v1`/`v1beta1`/`v1alpha5`) up front, then fetches `nodepools`, `nodeclaims`, `ec2nodeclasses`, and `nodes` in one consolidated read reused across all workflows. Utilization joins Prometheus (7-day lookback) or `metrics-server` (live snapshot) against per-node pod requests; when neither is reachable, utilization findings are marked unavailable rather than dropped. AWS-primary (`EC2NodeClass` checks are best-effort and skipped on non-AWS providers). Read-only — Kubernetes API only, no node mutation. Every finding names the concrete object and the field/condition/event that proves it.
+
+**Arguments:**
+- `<scope>` — natural-language scope (`status`, `diagnose`, `cost`, `for nodepool default`). Optional — omit for a full sweep across all three workflows.
+
+**Options:** none. Scope via natural language in the prompt or follow-ups.
+
+**Reference:** [kstack.sh/reference/skills/karpenter](https://kstack.sh/reference/skills/karpenter)
 
 </dd>
 </dl>
