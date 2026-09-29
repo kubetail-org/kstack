@@ -5,7 +5,7 @@ Every kstack skill accepts these flags. Parse them off the invocation before han
 - `--context <ctx>` — Append `--context=<ctx>` to every kubectl/kubetail call. Do not fall back to the current-context when the user supplied one.
 - `--namespace <n>` (alias `-n`) — Append `-n <n>` (or `--namespace=<n>`) to every kubectl/kubetail call, and skip any `--all-namespaces` default the skill would otherwise use.
 - `--json` — Emit a single structured JSON object instead of prose. Schema is defined per-skill; do not mix prose and JSON in the same run.
-- `--help` — Handled by the entrypoint preamble (see Entrypoint §; the entrypoint opens the skill's reference documentation page in the user's browser and emits a `render: verbatim` envelope with the URL). No skill-side action required.
+- `--help` — Handled by the entrypoint preamble (see Entrypoint §; the entrypoint opens the skill's reference documentation page in the user's browser and emits a `render: verbatim` envelope with the URL; if the page can't be opened, the envelope carries the skill's help text followed by the URL). No skill-side action required.
 
 ### Unknown or missing arguments
 

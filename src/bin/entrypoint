@@ -89,14 +89,32 @@ main() {
       response::infra_error "Docs URL missing for /$skill_name. Reinstall kstack."
       exit 0
     fi
-    local docs_url
+    local docs_url opener="" opened=0
     docs_url="$(cat "$docs_url_file")"
     if command -v open >/dev/null 2>&1; then
-      open "$docs_url" >/dev/null 2>&1 || true
-    elif command -v xdg-open >/dev/null 2>&1; then
-      xdg-open "$docs_url" >/dev/null 2>&1 || true
+      opener=open
+    elif command -v xdg-open >/dev/null 2>&1 \
+        && { [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; }; then
+      # Without a display xdg-open can fall back to a blocking text browser.
+      opener=xdg-open
     fi
-    response::ok_verbatim "Reference docs: $docs_url"
+    if [ -n "$opener" ] && "$opener" "$docs_url" >/dev/null 2>&1; then
+      opened=1
+    fi
+    if [ "$opened" -eq 1 ]; then
+      response::ok_verbatim "Reference docs: $docs_url"
+      exit 0
+    fi
+    # Headless or offline: return the rendered help page instead, with the URL
+    # appended so the full docs stay discoverable.
+    local help_file="$skill_dir/references/help.md"
+    if [ -f "$help_file" ]; then
+      response::ok_verbatim "$(cat "$help_file")
+
+Reference docs: $docs_url"
+    else
+      response::ok_verbatim "Reference docs: $docs_url"
+    fi
     exit 0
   fi
 

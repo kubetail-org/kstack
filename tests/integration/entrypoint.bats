@@ -83,6 +83,8 @@ envelope_field() {
 # ─── --help short-circuit ──────────────────────────────────────
 
 @test "--help emits ok/verbatim envelope with docs URL" {
+  use_mocks
+  write_stub open 'exit 0'
   run "$EP" --skill-dir="$SKILL_DIR" -- --help
   [ "$status" -eq 0 ]
   [[ "$output" == *'"kstack":"1"'* ]]
@@ -91,6 +93,31 @@ envelope_field() {
   content="$(envelope_field "$output" content)"
   [[ "$content" == *"Reference docs:"* ]]
   [[ "$content" == *"kstack.sh/reference/skills/demo"* ]]
+  # URL opened successfully: the help page body is not included.
+  [[ "$content" != *"help body"* ]]
+}
+
+@test "--help falls back to help.md plus URL when the docs URL cannot be opened" {
+  use_mocks
+  write_stub open 'exit 1'
+  run "$EP" --skill-dir="$SKILL_DIR" -- --help
+  [ "$status" -eq 0 ]
+  [[ "$output" == *'"status":"ok"'* ]]
+  [[ "$output" == *'"render":"verbatim"'* ]]
+  content="$(envelope_field "$output" content)"
+  [[ "$content" == *"help body"* ]]
+  [[ "$content" == *"Reference docs: https://kstack.sh/reference/skills/demo"* ]]
+}
+
+@test "--help fallback returns just the URL when help.md is missing" {
+  use_mocks
+  write_stub open 'exit 1'
+  rm "$SKILL_DIR/references/help.md"
+  run "$EP" --skill-dir="$SKILL_DIR" -- --help
+  [ "$status" -eq 0 ]
+  [[ "$output" == *'"status":"ok"'* ]]
+  content="$(envelope_field "$output" content)"
+  [[ "$content" == "Reference docs: https://kstack.sh/reference/skills/demo" ]]
 }
 
 @test "--help wins even when other flags are present" {
