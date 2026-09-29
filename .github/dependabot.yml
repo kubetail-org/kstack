@@ -1,0 +1,18 @@
+version: 2
+
+# GitHub Actions is the only ecosystem here — the repo ships no package
+# manifests, and its own payload is POSIX shell.
+#
+# Note what this does NOT cover: the tool versions pinned as env vars in
+# ci.yml (KIND_VERSION, KUBECTL_VERSION, YQ_VERSION). Dependabot's
+# github-actions ecosystem tracks `uses:` references only, so those still
+# need a deliberate bump — see the comment above the `env:` block.
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    labels:
+      - ci/cd
+    commit-message:
+      prefix: ci
