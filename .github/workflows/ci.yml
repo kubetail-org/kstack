@@ -22,7 +22,7 @@ jobs:
   lint:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Run shellcheck
         run: ./scripts/lint.sh
@@ -66,7 +66,7 @@ jobs:
             arch: amd64
     runs-on: ${{ matrix.runner }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install bats-core + jq (Ubuntu)
         if: runner.os == 'Linux'
@@ -98,7 +98,7 @@ jobs:
   bats-e2e:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install bats-core
         run: sudo apt-get update && sudo apt-get install -y bats
@@ -127,7 +127,7 @@ jobs:
       group: evals-${{ github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install kind
         run: |
