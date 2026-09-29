@@ -81,6 +81,12 @@ A skill opts into automatic shell dispatch by shipping an executable `scripts/ma
 
 An install materializes `{{ROOT_DIR}}/{bin,lib,cache,state,manifest}` — `~/.config/kstack/...` globally, `$PWD/.kstack/...` for `--local`, `<repo>/.kstack/...` for dev mode. `bin/` and `lib/` are copies of the `src/` tree (rerun `./install` to pick up changes). `cache/` holds the update-check cache and is managed by `src/lib/cache.sh` (a single-branch function keyed off `dirname "$SCRIPT_DIR"`). `state/` holds per-context learned state. `manifest/` holds single-fact text files describing the install (`version`, `skills`) managed by `src/lib/manifest.sh`. The `/forget` skill clears the `cache/` and `state/` subtrees; `/cleanup-cluster` clears in-cluster resources (anything labeled `kstack.kubetail.com/owned-by=kstack`).
 
+## Pull requests
+
+Before opening or editing a PR, read `.github/pull_request_template.md` and write the description from it: keep its section headings (Summary, Key Changes, Checklist), fill in the related-issues line (`Closes #` / `Ref #`), and tick the checklist items that apply. Don't invent a different format.
+
+PR titles are a Capitalized, natural-language sentence (e.g. "Fall back to help page when docs URL can't be opened"), prefixed with the template's emoji (🎣 bug fix, 🐋 new feature, 📜 documentation, ✨ general improvement). Don't use conventional-commit syntax (`fix(scope):`) in the PR title; that format is for commit messages only.
+
 ## Tests
 
 - `tests/unit/` — sourced-function tests (e.g. `agents.bats` sources `src/lib/agents.sh`).
